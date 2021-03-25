@@ -46,6 +46,12 @@ namespace Business.Concrete
         {
             return new SuccessDataResult<List<RentalDetailDto>>(_rentalDal.GetRentalDetails());
         }
+
+        public IDataResult<RentalDetailDto> GetRentalDetailsById(int id)
+        {
+            throw new System.NotImplementedException();
+        }
+
         [CacheAspect]
         public IDataResult<List<Rental>> GetRentals()
         {
