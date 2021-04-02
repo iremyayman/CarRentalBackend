@@ -1,4 +1,5 @@
 ﻿using Core.Entities.Concrete;
+using Entities.DTOs;
 using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
@@ -15,5 +16,7 @@ namespace Business.Constants
         public static string SuccessfulLogin = "Successful login.";
         public static string UserAlreadyExists = "User already exists.";
         public static string AccessTokenCreated = "Access token created.";
+        public static string CarImageLimitExceeded = "Car image limit exceeded.";
+        public static string NoCar = "There is no car.";
     }
 }
