@@ -1,5 +1,6 @@
 ﻿using Business.Abstract;
 using Core.Entities.Concrete;
+using Entities.DTOs;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -52,7 +53,16 @@ namespace WebAPI.Controllers
             }
             return BadRequest(result);
         }
-
+        [HttpGet("getbyemail")]
+        public IActionResult GeyByMail(string email)
+        {
+            var result = _userService.GetByMail(email);
+            if (result!=null)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result);
+        }
         [HttpPost("delete")]
         public IActionResult Delete(User user)
         {
@@ -72,6 +82,29 @@ namespace WebAPI.Controllers
             {
                 return Ok(result);
             }
+            return BadRequest(result);
+        }
+       
+        [HttpPost("getuserfindeks")]
+        public IActionResult GetUserFindeks([FromBody] UserFindeksDto userFindeksDto)
+        {
+            var result = _userService.GetUserFindex(userFindeksDto);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+
+            return BadRequest(result);
+        }
+        [HttpGet("getuserclaims")]
+        public IActionResult GetUserClaims(int id)
+        {
+            var result = _userService.GetClaims(id);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+
             return BadRequest(result);
         }
     }

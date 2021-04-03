@@ -2,6 +2,8 @@
 using Core.Entities.Concrete;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
+using Entities.DTOs;
+using System;
 using System.Collections.Generic;
 
 namespace Business.Concrete
@@ -15,9 +17,9 @@ namespace Business.Concrete
             _userDal = userDal;
         }
 
-        public  IDataResult<List<OperationClaim>> GetClaims(User user)
+        public  IDataResult<List<OperationClaim>> GetClaims(int id)
         {
-            return new SuccessDataResult <List<OperationClaim>>(_userDal.GetClaims(user));
+            return new SuccessDataResult <List<OperationClaim>>(_userDal.GetClaims(id));
         }
 
         public IResult Add(User user)
@@ -51,6 +53,15 @@ namespace Business.Concrete
         public IDataResult<User> GetById(int Id)
         {
             return new SuccessDataResult<User>(_userDal.Get(u => u.Id == Id));
+        }
+
+        public IDataResult<UserFindeksReturnDto> GetUserFindex(UserFindeksDto userFindeksDto)
+        {
+            Random random = new Random();
+            return new SuccessDataResult<UserFindeksReturnDto>(new UserFindeksReturnDto
+            {
+                UserFindeks = random.Next(1, 1900)
+            });
         }
     }
 }
