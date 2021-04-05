@@ -1,4 +1,5 @@
 ﻿using Business.Abstract;
+using Business.BusinessAspects.Autofac;
 using Core.Entities.Concrete;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
@@ -21,7 +22,7 @@ namespace Business.Concrete
         {
             return new SuccessDataResult <List<OperationClaim>>(_userDal.GetClaims(id));
         }
-
+        [SecuredOperation("admin")]
         public IResult Add(User user)
         {
             _userDal.Add(user);
@@ -33,7 +34,7 @@ namespace Business.Concrete
             _userDal.Update(user);
             return new SuccessResult();
         }
-
+        [SecuredOperation("admin")]
         public IResult Delete(User user)
         {
             _userDal.Delete(user);
@@ -62,6 +63,11 @@ namespace Business.Concrete
             {
                 UserFindeks = random.Next(1, 1900)
             });
+        }
+
+        public IDataResult<User> GetByEmail(string email)
+        {
+            return new SuccessDataResult<User>(_userDal.Get(u => u.Email == email));
         }
     }
 }
