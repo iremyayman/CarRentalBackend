@@ -48,7 +48,7 @@ namespace WebAPI.Controllers
             var result = _carService.Update(car);
             if (result.Success)
             {
-                return Ok(result.Message);
+                return Ok(result);
             }
             return BadRequest(result.Message);
         }
@@ -108,7 +108,7 @@ namespace WebAPI.Controllers
             return BadRequest(result.Message);
         }
         [HttpGet("getcardetails")]
-        public IActionResult GetCarDetails()
+        public IActionResult GetCarsDetails()
         {
             
             var result = _carService.GetCarsDetails();

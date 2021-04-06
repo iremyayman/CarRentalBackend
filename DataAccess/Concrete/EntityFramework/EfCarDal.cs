@@ -74,7 +74,7 @@ namespace DataAccess.Concrete.EntityFramework
 
                              };
 
-                return result.SingleOrDefault();
+                return result.FirstOrDefault();
             }
         }
 

@@ -48,7 +48,7 @@ namespace WebAPI.Controllers
             var result = _colorService.Update(color);
             if (result.Success)
             {
-                return Ok(result.Message);
+                return Ok(result);
             }
             return BadRequest(result.Message);
         }
