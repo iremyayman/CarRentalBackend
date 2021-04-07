@@ -32,6 +32,7 @@ namespace Business.Concrete
                 LastName = userForRegisterDto.LastName,
                 PasswordHash = passwordHash,
                 PasswordSalt = passwordSalt,
+                FindeksScore=userForRegisterDto.FindeksScore,
                 Status = true
             };
             _userService.Add(user);

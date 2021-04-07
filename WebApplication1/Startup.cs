@@ -40,8 +40,7 @@ namespace WebAPI
             //Autofac, ninject, castlewindsor, structuremap,lightinject,dryinject-- IOC Container
             //AOP
             services.AddControllers();
-            //services.AddSingleton<IProductService,ProductManager>();
-            //services.AddSingleton<IProductDal, EfProductDal>();
+           
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddCors();
 

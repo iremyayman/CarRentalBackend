@@ -56,14 +56,7 @@ namespace Business.Concrete
             return new SuccessDataResult<User>(_userDal.Get(u => u.Id == Id));
         }
 
-        public IDataResult<UserFindeksReturnDto> GetUserFindex(UserFindeksDto userFindeksDto)
-        {
-            Random random = new Random();
-            return new SuccessDataResult<UserFindeksReturnDto>(new UserFindeksReturnDto
-            {
-                UserFindeks = random.Next(1, 1900)
-            });
-        }
+       
 
         public IDataResult<User> GetByEmail(string email)
         {

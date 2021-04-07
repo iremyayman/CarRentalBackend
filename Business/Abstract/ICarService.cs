@@ -1,6 +1,7 @@
 ﻿using Core.Utilities.Results;
 using Entities.Concrete;
 using Entities.DTOs;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -19,9 +20,12 @@ namespace Business.Abstract
 
         IDataResult<List<CarDetailDto>> GetByBrand(int brandId);
         IDataResult<List<CarDetailDto>> GetByColor(int colorId);
+        IDataResult<List<Car>> GetCarByBrand(int brandId);
+        IDataResult<List<Car>> GetCarByColor(int colorId);
         IDataResult<List<CarDetailDto>> GetCarsDetails();
         IDataResult<CarDetailDto> GetCarDetails(int carId);
         IDataResult<List<CarDetailDto>> GetCarsByBrandAndColor(int brandId, int colorId);
+        IResult AddInitialPhoto(IFormFile file, Car car);
 
     }   
 }

@@ -82,20 +82,10 @@ namespace WebAPI.Controllers
             {
                 return Ok(result);
             }
-            return BadRequest(result.Message);
-        }
-       
-        [HttpPost("getuserfindeks")]
-        public IActionResult GetUserFindeks([FromBody] UserFindeksDto userFindeksDto)
-        {
-            var result = _userService.GetUserFindex(userFindeksDto);
-            if (result.Success)
-            {
-                return Ok(result);
-            }
-
             return BadRequest(result);
         }
+       
+        
         [HttpGet("getuserclaims")]
         public IActionResult GetUserClaims(int id)
         {

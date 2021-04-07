@@ -4,10 +4,12 @@ using Business.Constants;
 using Business.ValidationRules.FluentValidation;
 using Core.Aspects.Autofac.Caching;
 using Core.Aspects.Autofac.Validation;
+using Core.Utilities.Helpers;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
 using Entities.Concrete;
 using Entities.DTOs;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -23,7 +25,7 @@ namespace Business.Concrete
             _carDal = carDal;
         }
 
-        [SecuredOperation("admin")]
+        //[SecuredOperation("admin")]
         [CacheRemoveAspect("ICarService.Get")]
         [ValidationAspect(typeof(CarValidator))]
         public IResult Add(Car car)
@@ -77,7 +79,7 @@ namespace Business.Concrete
         {
             return new SuccessDataResult<CarDetailDto>(_carDal.GetCarDetails(carId));
         }
-        [SecuredOperation("admin")]
+        //[SecuredOperation("admin")]
         [CacheRemoveAspect("ICarService.Get")]
         public IResult Update(Car car)
         {
@@ -99,6 +101,22 @@ namespace Business.Concrete
 
         }
 
-       
+        public IDataResult<List<Car>> GetCarByBrand(int brandId)
+        {
+            return new SuccessDataResult<List<Car>>(_carDal.GetAll(c => c.BrandId == brandId));
+        }
+
+        public IDataResult<List<Car>> GetCarByColor(int colorId)
+        {
+            return new SuccessDataResult<List<Car>>(_carDal.GetAll(c => c.ColorId == colorId));
+        }
+        [CacheRemoveAspect("ICarService.Get")]
+        public IResult AddInitialPhoto(IFormFile file, Car car)
+        {
+
+            car.InitialImage = FileHelper.Add(file);
+            _carDal.Update(car);
+            return new SuccessResult();
+        }
     }
 }

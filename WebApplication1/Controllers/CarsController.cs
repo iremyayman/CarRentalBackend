@@ -144,6 +144,37 @@ namespace WebAPI.Controllers
 
         }
 
+        [HttpGet("getcarbybrand")]
+        public IActionResult GetCarByBrand(int brandId)
+        {
+            var result = _carService.GetCarByBrand(brandId);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result.Message);
+        }
+
+        [HttpGet("getcarbycolor")]
+        public IActionResult GetCarByColor(int colorId)
+        {
+            var result = _carService.GetCarByColor(colorId);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result.Message);
+        }
+        [HttpPost("addInitialPhoto")]
+        public IActionResult Add([FromForm(Name = ("Image"))] IFormFile file, [FromForm] Car car)
+        {
+            var result = _carService.AddInitialPhoto(file, car);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result);
+        }
 
 
     }
