@@ -1,5 +1,6 @@
 ﻿using Business.Abstract;
 using Business.BusinessAspects.Autofac;
+using Business.Constants;
 using Business.ValidationRules.FluentValidation;
 using Core.Aspects.Autofac.Caching;
 using Core.Aspects.Autofac.Validation;
@@ -8,6 +9,7 @@ using DataAccess.Abstract;
 using Entities.Concrete;
 using Entities.DTOs;
 using System.Collections.Generic;
+using System.Linq;
 using System.Linq.Expressions;
 
 namespace Business.Concrete
@@ -15,10 +17,15 @@ namespace Business.Concrete
     public class RentalManager : IRentalService
     {
         IRentalDal _rentalDal;
+        ICarDal _carDal;
+        IUserDal _userDal;
 
-        public RentalManager(IRentalDal rentalDal)
+
+        public RentalManager(IRentalDal rentalDal,ICarDal carDal,IUserDal userDal)
         {
             _rentalDal = rentalDal;
+            _carDal = carDal;
+            _userDal = userDal;
         }
         [CacheRemoveAspect("IRentalService.Get")]
         [SecuredOperation("secretary,admin")]
@@ -46,10 +53,15 @@ namespace Business.Concrete
         {
             return new SuccessDataResult<List<RentalDetailDto>>(_rentalDal.GetRentalDetails());
         }
-
+        [CacheAspect]
         public IDataResult<RentalDetailDto> GetRentalDetailsById(int id)
         {
-            throw new System.NotImplementedException();
+            return new SuccessDataResult<RentalDetailDto>(_rentalDal.GetRentalDetailsById(id));
+        }
+
+        public IDataResult<List<RentalDetailDto>> GetRentalDetailsByUser(int userId)
+        {
+            return new SuccessDataResult<List<RentalDetailDto>>(_rentalDal.GetRentalDetailsByUser(userId));
         }
 
         [CacheAspect]
@@ -64,6 +76,38 @@ namespace Business.Concrete
         {
             _rentalDal.Update(rental);
             return new SuccessResult();
+        }
+
+        private IResult CheckCarAvailable(Rental rental)
+        {
+            var result = _rentalDal.GetAll(r => r.CarId == rental.CarId);
+
+            if (result.Any(r =>
+                r.ReturnDate >= rental.RentDate &&
+                r.RentDate <= rental.ReturnDate
+            ))
+            {
+                return new ErrorResult(Messages.RentalNotAvailable);
+            }
+
+            return new SuccessResult();
+        }
+
+        private IResult CheckFindexScoreByUser(int userId, int carId)
+        {
+            var car = _carDal.Get(c => c.CarId == carId);
+
+            var user = _userDal.Get(c => c.Id == userId);
+
+            var carScore = car.FindeksScore;
+            var userScore = user.FindeksScore;
+
+            if (userScore >= carScore)
+            {
+                return new SuccessResult();
+            }
+            return new ErrorResult(Messages.NotEnough);
+
         }
     }
 }

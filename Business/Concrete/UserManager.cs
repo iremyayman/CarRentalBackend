@@ -22,7 +22,7 @@ namespace Business.Concrete
         {
             return new SuccessDataResult <List<OperationClaim>>(_userDal.GetClaims(id));
         }
-        [SecuredOperation("admin")]
+       
         public IResult Add(User user)
         {
             _userDal.Add(user);
