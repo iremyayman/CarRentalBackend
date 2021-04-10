@@ -22,7 +22,7 @@ namespace Business.Concrete
         {
             return new SuccessDataResult <List<OperationClaim>>(_userDal.GetClaims(id));
         }
-       
+        
         public IResult Add(User user)
         {
             _userDal.Add(user);
@@ -62,5 +62,7 @@ namespace Business.Concrete
         {
             return new SuccessDataResult<User>(_userDal.Get(u => u.Email == email));
         }
+
+      
     }
 }
